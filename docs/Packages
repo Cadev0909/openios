@@ -1,0 +1,77 @@
+Package: cloud-ui
+Name: Cloud Model UI
+Version: 1.0.0-1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: Lightweight web UI for both local llama.cpp models and cloud LLM APIs.
+  Accessible from Safari on the device at http://127.0.0.1:3000.
+  Supports: OpenAI, Anthropic Claude, Google Gemini, Ollama, and local llama-server.
+Homepage: https://github.com/YOUR_USERNAME/ios-llm-repo
+Section: AI/ML
+Priority: optional
+Depends: nodejs-ios
+Tag: role::ai, role::ui
+Filename: debs/cloud-ui_1.0.0-1_iphoneos-arm64.deb
+Size: 5126
+MD5sum: a09e04f2bbe50b046118ecdc0a92e439
+SHA1: 890172e4630e54e10d90b7366555b492c6ecab13
+SHA256: 502cad21aa59702335702f12355e3de6520281f04abcf206e3e88676d0e98978
+
+Package: llama-cpp-ios
+Name: llama.cpp (iOS ARM64)
+Version: 0~b9049-1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: LLM inference engine for iOS — runs GGUF models locally on-device.
+  Provides llama-server (HTTP API), llama-cli (interactive), and llama-bench.
+  Metal GPU acceleration is enabled by default on A-series chips.
+  Compatible with any GGUF model (Llama 3, Mistral, Phi-3, Qwen, etc.).
+Homepage: https://github.com/ggml-org/llama.cpp
+Section: AI/ML
+Priority: optional
+Depends: nodejs-ios
+Tag: role::ai, role::server
+Filename: debs/llama-cpp_0~b9049-1_iphoneos-arm64.deb
+Size: 3390088
+MD5sum: af125f7b5fd3057ec3501c2924d861c5
+SHA1: dbdd963648ffef7f09e80e39a5249162e9f82382
+SHA256: 52ee6f244b385482e89e70a3fd6fd65db3c898d1c2a5940cb28d97373ff15d84
+
+Package: nodejs-ios
+Name: Node.js (iOS ARM64)
+Version: 20.0.0-stub1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: Node.js dependency stub for jailbroken iOS.
+  This is a placeholder package. No pre-built Node.js binary for
+  iphoneos-arm64 is currently available from Procursus or other known
+  trusted sources. Install Node.js from a compatible jailbreak repository
+  (such as Havoc or Chariz) to satisfy this dependency.
+Homepage: https://nodejs.org
+Section: Development
+Priority: optional
+Tag: role::developer
+Filename: debs/nodejs_20.0.0-stub1_iphoneos-arm64.deb
+Size: 1062
+MD5sum: 0358bc638c36cedb11fa4cf8c1ff0efa
+SHA1: ec784b5c26b449b55c73f46fca93a4b6f480ad89
+SHA256: 5b1e76b81838901aaa8394d006e7f8142b06c7f78e47782ab8040f733fc7b6ec
+
+Package: python3-ios
+Name: Python 3 (iOS ARM64)
+Version: 3.9.9-1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: Python 3.9 runtime for jailbroken iOS (rootless).
+  Sourced from Procursus (iphoneos-arm64-rootless pool).
+  Useful for running model download scripts, tooling, and automation.
+Homepage: https://www.python.org
+Section: Development
+Priority: optional
+Tag: role::developer
+Filename: debs/python3-ios_3.9.9-1_iphoneos-arm64.deb
+Size: 22332294
+MD5sum: a26f2e101a136d48daa771c9758850b8
+SHA1: 0456688cfda00ae12b499e448ff00a90f66f4599
+SHA256: f207f1e65b73a374d2326762485932018003f4185c6a1107201cbeb16405bb7e
+

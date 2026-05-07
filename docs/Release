@@ -6,3 +6,18 @@ Version: 1.0
 Architectures: iphoneos-arm64
 Components: main
 Description: LLM inference and cloud model packages for rootless jailbroken iOS (Dopamine/Fugu15)
+MD5Sum:
+ 4597c408eb5b35ee0484e5bfd2b4fd67 2992 Packages
+ f4671fa65eb440e6a4a6de0b0d089066 1453 Packages.gz
+ 5203bd42b1c22ec5b6a78d473cdf85b0 1568 Packages.bz2
+ 7cb1b0ae783da1e95ff857539824f18a 1500 Packages.xz
+SHA1:
+ 844ce97b75536341693ee519b776b495c4f194d2 2992 Packages
+ 10f36144ba61d950957374c42e0c9d62b77ccefe 1453 Packages.gz
+ e97e9d6a7f6328aa9d9bb5578e93a221df2f5cff 1568 Packages.bz2
+ 6dbb1c3e03ff548b661f438032c2de706c1adf8e 1500 Packages.xz
+SHA256:
+ 99f324ace60f55716c81aaa261b2f65d7795f400fbfaa915368f7c966829de01 2992 Packages
+ e289c283f66d8d4748570802a87c2f564f8ed8f571ace6d0ec25e3abc2b27be1 1453 Packages.gz
+ 0d38015babdf5edd955e32c826e7858df607bd38fc6db9afdef1ff3cacdf31ad 1568 Packages.bz2
+ 699c341e71cdbef3ba13008d4f699620c7c4dc96c2366382f9c817b9b7956be7 1500 Packages.xz

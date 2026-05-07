@@ -22,16 +22,21 @@ for pkg_dir in "$PKGS_DIR"/*/; do
     pkg_name=$(basename "$pkg_dir")
     if [ ! -f "$pkg_dir/DEBIAN/control" ]; then continue; fi
 
-    # Read version and arch from control file
-    version=$(grep "^Version:" "$pkg_dir/DEBIAN/control" | awk '{print $2}')
-    arch=$(grep "^Architecture:" "$pkg_dir/DEBIAN/control" | awk '{print $2}')
+    # Read version and arch from control file (strip \r for Windows line endings)
+    version=$(grep "^Version:" "$pkg_dir/DEBIAN/control" | awk '{print $2}' | tr -d '\r')
+    arch=$(grep "^Architecture:" "$pkg_dir/DEBIAN/control" | awk '{print $2}' | tr -d '\r')
     deb_file="$DEBS_DIR/${pkg_name}_${version}_${arch}.deb"
 
-    # Ensure all scripts in DEBIAN/ are executable
-    chmod -R 755 "$pkg_dir/DEBIAN/"
+    # Build in Linux tmpfs to avoid NTFS chmod/utime failures
+    linux_tmp=$(mktemp -d /tmp/build_XXXXXX)
+    cp -r "$pkg_dir/." "$linux_tmp/"
+    chmod -R 755 "$linux_tmp/DEBIAN/"
 
     echo "  Building: $pkg_name → $(basename "$deb_file")"
-    dpkg-deb -Zgzip --build "$pkg_dir" "$deb_file"
+    tmp_deb="/tmp/${pkg_name}_${version}_${arch}.deb"
+    dpkg-deb -Zgzip --build "$linux_tmp" "$tmp_deb"
+    cp "$tmp_deb" "$deb_file"
+    rm -rf "$linux_tmp" "$tmp_deb"
 done
 
 echo ""

@@ -1,0 +1,8 @@
+# Extracted iOS ARM64 binary trees (populated by fetch-binaries.sh, not for git)
+packages/python3-ios/var/
+packages/llama-cpp/var/jb/usr/local/bin/
+packages/nodejs/var/
+
+# Temp files
+*.tmp
+tmp/

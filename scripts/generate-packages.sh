@@ -59,9 +59,17 @@ EOF
 done
 
 echo "  Compressing..."
-gzip  -9 -k -f "$PACKAGES_FILE"   # → Packages.gz
-bzip2 -9 -k -f "$PACKAGES_FILE"   # → Packages.bz2
-xz    -9 -k -f "$PACKAGES_FILE"   # → Packages.xz
+rm -f "${PACKAGES_FILE}.gz" "${PACKAGES_FILE}.bz2" "${PACKAGES_FILE}.xz"
+# Compress in Linux tmpfs to avoid NTFS utime errors, then copy to destination
+TMP_PKG=$(mktemp /tmp/Packages_XXXXXX)
+cp "$PACKAGES_FILE" "$TMP_PKG"
+gzip  -9 -k "$TMP_PKG"
+bzip2 -9 -k "$TMP_PKG"
+xz    -9 -k "$TMP_PKG"
+cp "${TMP_PKG}.gz"  "${PACKAGES_FILE}.gz"
+cp "${TMP_PKG}.bz2" "${PACKAGES_FILE}.bz2"
+cp "${TMP_PKG}.xz"  "${PACKAGES_FILE}.xz"
+rm -f "$TMP_PKG" "${TMP_PKG}.gz" "${TMP_PKG}.bz2" "${TMP_PKG}.xz"
 
 # ── Update Release with checksums ────────────────────────────────────────────
 RELEASE_FILE="$DOCS_DIR/Release"

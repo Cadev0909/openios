@@ -1,10 +1,10 @@
 Package: python3-ios
 Name: Python 3 (iOS ARM64)
-Version: 3.11.8-1
+Version: 3.9.9-1
 Architecture: iphoneos-arm64
 Maintainer: Your Name <you@example.com>
-Description: Python 3.11 runtime for jailbroken iOS (rootless).
-  Sourced from Procursus. Includes pip3.
+Description: Python 3.9 runtime for jailbroken iOS (rootless).
+  Sourced from Procursus (iphoneos-arm64-rootless pool).
   Useful for running model download scripts, tooling, and automation.
 Homepage: https://www.python.org
 Section: Development

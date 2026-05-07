@@ -1,13 +1,13 @@
 Package: llama-cpp-ios
 Name: llama.cpp (iOS ARM64)
-Version: b3233-1
+Version: 0~b9049-1
 Architecture: iphoneos-arm64
 Maintainer: Your Name <you@example.com>
 Description: LLM inference engine for iOS — runs GGUF models locally on-device.
   Provides llama-server (HTTP API), llama-cli (interactive), and llama-bench.
   Metal GPU acceleration is enabled by default on A-series chips.
   Compatible with any GGUF model (Llama 3, Mistral, Phi-3, Qwen, etc.).
-Homepage: https://github.com/ggerganov/llama.cpp
+Homepage: https://github.com/ggml-org/llama.cpp
 Section: AI/ML
 Priority: optional
 Depends: nodejs-ios

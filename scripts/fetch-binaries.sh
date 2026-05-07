@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 # =============================================================================
 # fetch-binaries.sh
-# Downloads pre-compiled iOS ARM64 binaries from trusted upstream sources
-# (Procursus for Node/Python, llama.cpp GitHub releases for llama-server).
+# Downloads pre-compiled iOS ARM64 binaries from trusted upstream sources.
 # Run ONCE before build-repo.sh to populate packages/ with actual binaries.
+#
+# Sources:
+#   python3-ios : Procursus iphoneos-arm64-rootless pool (Python 3.9)
+#   llama-cpp   : ggml-org/llama.cpp GitHub releases (macOS arm64)
+#   nodejs-ios  : No pre-built iOS binary is available from Procursus or
+#                 any other known trusted source. The nodejs-ios package
+#                 is built as a meta/stub package. Users who need Node.js
+#                 must install it from a compatible jailbreak repository.
 # =============================================================================
 set -euo pipefail
 
@@ -16,56 +23,60 @@ trap "rm -rf $TMP_DIR" EXIT
 download() { curl -fsSL --retry 3 -o "$2" "$1"; }
 extract_deb_data() {
     # $1 = .deb path, $2 = destination directory
-    local deb="$1" dest="$2"
-    ar x "$deb" --output="$TMP_DIR/ar_out" 2>/dev/null || (mkdir -p "$TMP_DIR/ar_out" && cd "$TMP_DIR/ar_out" && ar x "$deb")
-    for data_tar in "$TMP_DIR/ar_out"/data.tar.*; do
-        [ -f "$data_tar" ] && tar -xf "$data_tar" -C "$dest" && break
-    done
+    # Extract to Linux tmpfs first to avoid NTFS utime errors on /mnt/,
+    # then copy files to the real destination (no -a to skip timestamp preservation).
+    local linux_tmp
+    linux_tmp=$(mktemp -d /tmp/deb_extract_XXXXXX)
+    dpkg-deb --extract "$1" "$linux_tmp"
+    cp -r "$linux_tmp/." "$2/"
+    rm -rf "$linux_tmp"
 }
 
-# ── 1. Node.js 20 from Procursus ─────────────────────────────────────────────
-# Procursus hosts Debian-format packages for iphoneos-arm64.
-# Check https://apt.procurs.us/pool/main/n/nodejs/ for latest version.
-NODE_DEB_URL="https://apt.procurs.us/pool/main/n/nodejs/nodejs_20.12.2-1_iphoneos-arm64.deb"
-NODE_DEST="$PKGS_DIR/nodejs"
+# ── 1. Node.js ───────────────────────────────────────────────────────────────
+# Procursus does not publish a Node.js binary for iphoneos-arm64.
+# The nodejs-ios package will be built as a stub (metadata only).
+# No binary extraction is performed here.
+echo "==> Skipping Node.js binary fetch (no iOS pre-built binary available)."
+echo "    nodejs-ios will be built as a metadata-only stub package."
+mkdir -p "$PKGS_DIR/nodejs"
 
-echo "==> Fetching Node.js from Procursus..."
-mkdir -p "$NODE_DEST"
-download "$NODE_DEB_URL" "$TMP_DIR/nodejs.deb"
-extract_deb_data "$TMP_DIR/nodejs.deb" "$NODE_DEST"
-echo "  Node.js binaries extracted to $NODE_DEST"
-
-# ── 2. Python 3.11 from Procursus ────────────────────────────────────────────
-PYTHON_DEB_URL="https://apt.procurs.us/pool/main/p/python3.11/python3.11_3.11.8-1_iphoneos-arm64.deb"
+# ── 2. Python 3.9 from Procursus ─────────────────────────────────────────────
+# Procursus iphoneos-arm64-rootless pool (3000 = iOS 16+).
+# python3.9_3.9.9-1 is a small wrapper; libpython3.9_3.9.9-1 has the runtime.
+PYTHON_DEB_URL="https://apt.procurs.us/pool/main/iphoneos-arm64-rootless/3000/python3/libpython3.9_3.9.9-1_iphoneos-arm64.deb"
 PYTHON_DEST="$PKGS_DIR/python3-ios"
 
-echo "==> Fetching Python 3.11 from Procursus..."
+echo "==> Fetching Python 3.9 from Procursus..."
 mkdir -p "$PYTHON_DEST"
 download "$PYTHON_DEB_URL" "$TMP_DIR/python3.deb"
 extract_deb_data "$TMP_DIR/python3.deb" "$PYTHON_DEST"
-echo "  Python 3 binaries extracted to $PYTHON_DEST"
+echo "  Python 3.9 binaries extracted to $PYTHON_DEST"
 
-# ── 3. llama.cpp (latest release, iOS Metal build) ──────────────────────────
-# llama.cpp releases ship macOS/Apple Silicon binaries which run on iOS too
-# when compiled with the right flags. We pull the latest release tag.
-LLAMA_VERSION="b3233"
-LLAMA_RELEASE_URL="https://github.com/ggerganov/llama.cpp/releases/download/${LLAMA_VERSION}/llama-${LLAMA_VERSION}-bin-macos-arm64.zip"
+# ── 3. llama.cpp (macOS arm64 Metal build) ───────────────────────────────────
+# NOTE: llama.cpp repo moved to ggml-org/llama.cpp.
+# The macOS arm64 build is the closest available pre-built binary to iOS arm64.
+# Releases now ship as .tar.gz (no longer .zip).
+# A native iOS jailbreak build would require cross-compilation with the iOS SDK.
+LLAMA_VERSION="b9049"
+LLAMA_RELEASE_URL="https://github.com/ggml-org/llama.cpp/releases/download/${LLAMA_VERSION}/llama-${LLAMA_VERSION}-bin-macos-arm64.tar.gz"
 LLAMA_DEST="$PKGS_DIR/llama-cpp/var/jb/usr/local/bin"
 
-echo "==> Fetching llama.cpp ${LLAMA_VERSION} (arm64 Metal build)..."
+echo "==> Fetching llama.cpp ${LLAMA_VERSION} (macOS arm64 Metal build)..."
 mkdir -p "$LLAMA_DEST" "$TMP_DIR/llama"
-download "$LLAMA_RELEASE_URL" "$TMP_DIR/llama.zip"
-unzip -q "$TMP_DIR/llama.zip" -d "$TMP_DIR/llama"
+download "$LLAMA_RELEASE_URL" "$TMP_DIR/llama.tar.gz"
+tar -xzf "$TMP_DIR/llama.tar.gz" -C "$TMP_DIR/llama"
 
 # Copy the key binaries
 for bin in llama-server llama-cli llama-bench llama-run; do
     src=$(find "$TMP_DIR/llama" -name "$bin" -type f 2>/dev/null | head -1)
     if [ -n "$src" ]; then
-        install -m 755 "$src" "$LLAMA_DEST/$bin"
+        cp "$src" "$LLAMA_DEST/$bin"
         echo "  Copied: $bin"
+    else
+        echo "  Warning: $bin not found in release archive"
     fi
 done
 echo "  llama.cpp binaries at $LLAMA_DEST"
 
 echo ""
-echo "==> All binaries fetched. Now run: bash scripts/build-repo.sh"
+echo "==> Fetch complete. Now run: bash scripts/build-repo.sh"
