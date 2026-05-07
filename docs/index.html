@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iOS LLM Repo — Sileo/Zebra Source</title>
+<style>
+  :root{--bg:#0d0d0d;--card:#1a1a1a;--border:#333;--accent:#1a6aff;--text:#e8e8e8;--muted:#888}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);padding:24px 16px;max-width:700px;margin:0 auto}
+  h1{font-size:24px;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:32px}
+  .source-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:28px}
+  .source-box code{display:block;font-size:13px;color:#7dd3fc;background:#0d1a2a;padding:10px 14px;border-radius:8px;margin-top:10px;word-break:break-all;user-select:all}
+  h2{font-size:16px;margin-bottom:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .pkg{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start}
+  .pkg-icon{font-size:28px;line-height:1}
+  .pkg-info{flex:1}
+  .pkg-name{font-weight:600;font-size:15px}
+  .pkg-id{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:monospace}
+  .pkg-desc{font-size:13px;color:#bbb;line-height:1.5}
+  .pkg-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .tag{font-size:11px;background:#1a2a1a;color:#6ee;border:1px solid #2a4a2a;padding:2px 8px;border-radius:20px}
+  .tag.ai{background:#1a1a2a;color:#a78bfa;border-color:#2a2a4a}
+  .tag.dev{background:#2a1a00;color:#fb923c;border-color:#4a2a00}
+  footer{margin-top:40px;font-size:12px;color:var(--muted);text-align:center}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<h1>iOS LLM Repo</h1>
+<p class="sub">LLM inference &amp; cloud model packages for rootless jailbroken iOS (Dopamine · Fugu15 · Palera1n)</p>
+
+<div class="source-box">
+  <strong>Add to Sileo / Zebra / Cydia</strong>
+  <code id="repo-url">https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/</code>
+  <p style="font-size:12px;color:var(--muted);margin-top:8px">
+    Tap &amp; hold the URL above to copy, then paste it in your package manager's "Add Source" dialog.
+  </p>
+</div>
+
+<h2>Packages</h2>
+
+<div class="pkg">
+  <div class="pkg-icon">⚙️</div>
+  <div class="pkg-info">
+    <div class="pkg-name">Node.js (iOS ARM64)</div>
+    <div class="pkg-id">nodejs-ios · v20.12.2</div>
+    <div class="pkg-desc">Node.js v20 LTS runtime for jailbroken iOS. Installs <code>node</code>, <code>npm</code>, and <code>npx</code> into <code>/var/jb/usr/local/bin</code>. Built by the Procursus project.</div>
+    <div class="pkg-meta">
+      <span class="tag dev">Development</span>
+      <span class="tag">iphoneos-arm64</span>
+      <span class="tag">rootless</span>
+    </div>
+  </div>
+</div>
+
+<div class="pkg">
+  <div class="pkg-icon">🦙</div>
+  <div class="pkg-info">
+    <div class="pkg-name">llama.cpp (iOS ARM64)</div>
+    <div class="pkg-id">llama-cpp-ios · b3233</div>
+    <div class="pkg-desc">
+      LLM inference engine — runs any GGUF model locally on-device with Metal GPU acceleration.
+      Includes <code>llama-server</code> (OpenAI-compatible HTTP API on port 8080), <code>llama-cli</code>, and <code>llama-bench</code>.
+      Works with Llama 3, Mistral, Phi-3, Qwen2, Gemma 2, and more.
+    </div>
+    <div class="pkg-meta">
+      <span class="tag ai">AI/ML</span>
+      <span class="tag">Metal GPU</span>
+      <span class="tag">iphoneos-arm64</span>
+    </div>
+  </div>
+</div>
+
+<div class="pkg">
+  <div class="pkg-icon">🤖</div>
+  <div class="pkg-info">
+    <div class="pkg-name">Cloud Model UI</div>
+    <div class="pkg-id">cloud-ui · v1.0.0</div>
+    <div class="pkg-desc">
+      Lightweight chat web interface accessible in Safari at <code>http://127.0.0.1:3000</code>.
+      Switch between <strong>local llama.cpp</strong>, <strong>OpenAI</strong>, <strong>Anthropic Claude</strong>, and <strong>Google Gemini</strong> from a single interface.
+      Tap the gear icon to enter API keys. Auto-starts on boot via launchd.
+    </div>
+    <div class="pkg-meta">
+      <span class="tag ai">AI/ML</span>
+      <span class="tag">Web UI</span>
+      <span class="tag ai">Multi-backend</span>
+    </div>
+  </div>
+</div>
+
+<div class="pkg">
+  <div class="pkg-icon">🐍</div>
+  <div class="pkg-info">
+    <div class="pkg-name">Python 3 (iOS ARM64)</div>
+    <div class="pkg-id">python3-ios · 3.11.8</div>
+    <div class="pkg-desc">Python 3.11 + pip3 for jailbroken iOS. Useful for running Hugging Face model download scripts, automation, and tooling. Sourced from Procursus.</div>
+    <div class="pkg-meta">
+      <span class="tag dev">Development</span>
+      <span class="tag">iphoneos-arm64</span>
+    </div>
+  </div>
+</div>
+
+<h2 style="margin-top:32px">Quick Start</h2>
+<div class="source-box" style="font-size:13px;line-height:1.8">
+  <ol style="padding-left:18px">
+    <li>Add this repo in Sileo/Zebra</li>
+    <li>Install <strong>llama-cpp-ios</strong> and <strong>cloud-ui</strong></li>
+    <li>SSH into your device and download a GGUF model:<br>
+      <code style="display:inline;padding:2px 6px">wget -O /var/jb/var/llama-models/active.gguf &lt;model-url&gt;</code>
+    </li>
+    <li>Start llama-server:<br>
+      <code style="display:inline;padding:2px 6px">/var/jb/usr/local/bin/llama-server --model /var/jb/var/llama-models/active.gguf --port 8080 --n-gpu-layers 99</code>
+    </li>
+    <li>Open Safari → <strong>http://127.0.0.1:3000</strong></li>
+  </ol>
+</div>
+
+<footer>
+  Packages sourced from <a href="https://github.com/ProcursusTeam/Procursus">Procursus</a> and
+  <a href="https://github.com/ggerganov/llama.cpp">llama.cpp</a>.
+  This repo is not affiliated with Apple Inc.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+#!/bin/bash
+# postinst — runs on device after nodejs-ios is unpacked
+set -e
+
+PREFIX=/var/jb
+
+# Symlink node and npm into a location on $PATH
+for bin in node npm npx; do
+    if [ -f "$PREFIX/usr/local/bin/$bin" ]; then
+        ln -sf "$PREFIX/usr/local/bin/$bin" "$PREFIX/usr/bin/$bin" 2>/dev/null || true
+    fi
+done
+
+echo "Node.js installed at $PREFIX/usr/local/bin/node"
+echo "Run: /var/jb/usr/local/bin/node --version"

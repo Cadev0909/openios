@@ -1,0 +1,8 @@
+Origin: iOS LLM Repo
+Label: iOS LLM Repo
+Suite: stable
+Codename: stable
+Version: 1.0
+Architectures: iphoneos-arm64
+Components: main
+Description: LLM inference and cloud model packages for rootless jailbroken iOS (Dopamine/Fugu15)

@@ -1,0 +1,56 @@
+#!/bin/bash
+# postinst — llama.cpp post-install configuration
+set -e
+
+PREFIX=/var/jb
+SHARE_DIR="$PREFIX/usr/local/share/llama-cpp"
+MODELS_DIR="$PREFIX/var/llama-models"
+
+mkdir -p "$SHARE_DIR" "$MODELS_DIR"
+
+# Write the launchd plist so llama-server starts on boot
+cat > "$PREFIX/Library/LaunchDaemons/com.llamacpp.server.plist" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.llamacpp.server</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/var/jb/usr/local/bin/llama-server</string>
+        <string>--host</string>
+        <string>127.0.0.1</string>
+        <string>--port</string>
+        <string>8080</string>
+        <string>--model</string>
+        <string>/var/jb/var/llama-models/active.gguf</string>
+        <string>--n-gpu-layers</string>
+        <string>99</string>
+        <string>--ctx-size</string>
+        <string>4096</string>
+    </array>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/var/jb/var/log/llama-server.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/jb/var/log/llama-server.err</string>
+</dict>
+</plist>
+EOF
+
+chmod 644 "$PREFIX/Library/LaunchDaemons/com.llamacpp.server.plist"
+
+echo ""
+echo "llama.cpp installed."
+echo "  Binaries:    $PREFIX/usr/local/bin/llama-{server,cli,bench}"
+echo "  Models dir:  $MODELS_DIR"
+echo ""
+echo "Quick start:"
+echo "  1. Copy a .gguf model to $MODELS_DIR/active.gguf"
+echo "  2. Run: /var/jb/usr/local/bin/llama-server --model $MODELS_DIR/active.gguf --port 8080"
+echo "  3. Open http://127.0.0.1:8080 in Safari"

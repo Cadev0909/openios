@@ -1,0 +1,13 @@
+Package: nodejs-ios
+Name: Node.js (iOS ARM64)
+Version: 20.12.2-1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: Node.js JavaScript runtime for jailbroken iOS (rootless, Dopamine/Fugu15).
+  Installs Node.js v20 LTS + npm into /var/jb/usr/local/bin.
+  Binaries sourced from the Procursus bootstrap project.
+Homepage: https://nodejs.org
+Section: Development
+Priority: optional
+Depends: libssl3 (>= 3.0), libstdc++6 (>= 12)
+Tag: role::developer

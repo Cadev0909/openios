@@ -1,0 +1,41 @@
+#!/bin/bash
+# postinst — cloud-ui post-install
+set -e
+
+PREFIX=/var/jb
+
+# Write launchd plist
+cat > "$PREFIX/Library/LaunchDaemons/com.cloudui.server.plist" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.cloudui.server</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/var/jb/usr/local/bin/node</string>
+        <string>/var/jb/usr/local/share/cloud-ui/server.js</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/var/jb/var/log/cloud-ui.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/jb/var/log/cloud-ui.err</string>
+</dict>
+</plist>
+EOF
+
+chmod 644 "$PREFIX/Library/LaunchDaemons/com.cloudui.server.plist"
+
+# Start the service immediately
+launchctl load "$PREFIX/Library/LaunchDaemons/com.cloudui.server.plist" 2>/dev/null || true
+
+echo ""
+echo "Cloud UI installed and started."
+echo "  Open Safari on this device: http://127.0.0.1:3000"
+echo "  Tap the gear icon to enter API keys for cloud models."

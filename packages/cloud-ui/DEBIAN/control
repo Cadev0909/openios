@@ -1,0 +1,13 @@
+Package: cloud-ui
+Name: Cloud Model UI
+Version: 1.0.0-1
+Architecture: iphoneos-arm64
+Maintainer: Your Name <you@example.com>
+Description: Lightweight web UI for both local llama.cpp models and cloud LLM APIs.
+  Accessible from Safari on the device at http://127.0.0.1:3000.
+  Supports: OpenAI, Anthropic Claude, Google Gemini, Ollama, and local llama-server.
+Homepage: https://github.com/YOUR_USERNAME/ios-llm-repo
+Section: AI/ML
+Priority: optional
+Depends: nodejs-ios
+Tag: role::ai, role::ui
